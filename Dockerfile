@@ -5,8 +5,8 @@ MAINTAINER Yiannis Mouchakis <gmouchakis@iit.demokritos.gr>
 RUN apt-get update && apt-get install -y git openjdk-7-jdk maven && \
     cd /opt && \
     git clone https://github.com/semagrow/fork-splendid-server.git && \ 
-    git checkout mavenize && \
     cd fork-splendid-server && \
+    git checkout mavenize && \
     mvn clean package -P server && \
     cd /opt/fork-splendid-server && \
     cp target/splendid-*.war /usr/local/tomcat/webapps/ && \
