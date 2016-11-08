@@ -5,6 +5,20 @@
     <groupId>de.uni_koblenz.west</groupId>
     <artifactId>splendid</artifactId>
     <version>1.0</version>
+    <packaging>jar</packaging>
+    <name>splendid</name>
+
+    <properties>
+      <sesame.version>2.6.2</sesame.version>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>ontotext.aduna</id>
+            <url>http://maven.ontotext.com/content/repositories/aduna/</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <dependency>
             <groupId>commons-cli</groupId>
@@ -54,28 +68,24 @@
         <dependency>
             <groupId>org.openrdf.sesame</groupId>
             <artifactId>sesame-runtime</artifactId>
-            <version>2.6.2</version>
+            <version>${sesame.version}</version>
         </dependency>
         <dependency>
             <groupId>org.openrdf.sesame</groupId>
             <artifactId>sesame-rio-n3</artifactId>
-            <version>2.6.2</version>
+            <version>${sesame.version}</version>
         </dependency>
         <dependency>
             <groupId>org.openrdf.sesame</groupId>
             <artifactId>sesame-queryresultio-sparqljson</artifactId>
-            <version>2.6.2</version>
+            <version>${sesame.version}</version>
         </dependency>
         <dependency>
             <groupId>org.openrdf.sesame</groupId>
             <artifactId>sesame-queryparser-sparql</artifactId>
-            <version>2.6.2</version>
+            <version>${sesame.version}</version>
         </dependency>
     </dependencies>
-
-    <packaging>jar</packaging>
-    <name>splendid</name>
-
 
     <build>
         <sourceDirectory>src</sourceDirectory>
@@ -97,11 +107,64 @@
         </plugins>
     </build>
 
-    <repositories>
-        <repository>
-            <id>ontotext.aduna</id>
-            <url>http://maven.ontotext.com/content/repositories/aduna/</url>
-        </repository>
-    </repositories>
+    <profiles>
+      <profile>
+        <id>server</id>
+              <dependencies>
+                  <dependency>
+                          <groupId>org.openrdf.sesame</groupId>
+                          <artifactId>sesame-http-server-spring</artifactId>
+                          <version>${sesame.version}</version>
+                  </dependency>
+
+                  <dependency>
+                          <groupId>org.openrdf.sesame</groupId>
+                          <artifactId>sesame-repository-manager</artifactId>
+                          <version>${sesame.version}</version>
+                  </dependency>
+              </dependencies>
+
+              <build>
+                  <plugins>
+                      <plugin>
+                         <groupId>org.codehaus.mojo</groupId>
+                         <artifactId>build-helper-maven-plugin</artifactId>
+                         <version>1.12</version>
+                         <executions>
+                           <execution>
+                             <id>add-source</id>
+                             <phase>generate-sources</phase>
+                             <goals>
+                               <goal>add-source</goal>
+                             </goals>
+                             <configuration>
+                               <sources>
+                                 <source>src</source>
+                                 <source>server/src/main/java</source>
+                               </sources>
+                             </configuration>
+                           </execution>
+                         </executions>
+                       </plugin>
+                      <plugin>
+                          <groupId>org.apache.maven.plugins</groupId>
+                          <artifactId>maven-war-plugin</artifactId>
+                          <version>2.6</version>
+                          <configuration>
+                            <warSourceDirectory>${basedir}/server/src/main/webapp</warSourceDirectory>
+                          </configuration>
+                          <executions>
+                                  <execution>
+                                          <phase>prepare-package</phase>
+                                          <goals>
+                                                  <goal>war</goal>
+                                          </goals>
+                                  </execution>
+                          </executions>
+                      </plugin>
+                  </plugins>
+              </build>
+      </profile>
+    </profiles>
 
 </project>
