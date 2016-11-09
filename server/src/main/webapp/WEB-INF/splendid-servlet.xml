@@ -22,7 +22,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 		</property>
 	</bean>
 
-	<bean id="openrdfRepositoryManager" class="com.github.semagrow.fedx.SplendidRepositoryManager"
+	<bean id="openrdfRepositoryManager" class="de.uni_koblenz.west.splendid.SplendidRepositoryManager"
 		init-method="initialize" destroy-method="shutDown" scope="singleton">
 	</bean>
 
