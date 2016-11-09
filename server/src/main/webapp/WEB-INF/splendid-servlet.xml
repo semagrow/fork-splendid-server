@@ -34,9 +34,11 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 		<aop:scoped-proxy />
 	</bean>
 
-	<bean id="openrdfRepositoryController" class="org.openrdf.http.server.repository.RepositoryController">
+	<bean id="openrdfRepositoryListController" class="org.openrdf.http.server.repository.RepositoryListController">
 		<property name="repositoryManager" ref="openrdfRepositoryManager" />
 	</bean>
+
+	<bean id="openrdfRepositoryController" class="org.openrdf.http.server.repository.RepositoryController" />
 
 	<!-- EXCEPTION RESOLVERS -->
 	<bean id="openrdfHandlerExceptionResolver" class="org.openrdf.http.server.ProtocolExceptionResolver" />
